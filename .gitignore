@@ -373,22 +373,34 @@ logs
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependency directories
+node_modules/
+
+# Production build output
+dist/
+dist-ssr/
+
+# Vite local environment files (can contain sensitive data)
 *.local
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+.vscode/
+.idea/
 .DS_Store
+
+# OS generated files and others
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Optional: Test snapshots or coverage (if applicable)
+# coverage/
+# src/__tests__/__snapshots__/
+
+# Optional: Environment variable files that should remain local and not tracked
+.env
+.env.*.local
