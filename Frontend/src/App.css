@@ -40,3 +40,19 @@
 .read-the-docs {
   color: #888;
 }
+
+body {
+  /* Stacking the layers: [Color Layer], [Image Layer] */
+  background: 
+        /* 1. The color layer with opacity (a = 0.5) */ linear-gradient(
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0.9)
+    ),
+    /* 2. The image layer */
+      url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/54046/glass_droplets.jpeg);
+
+  /* Standard background properties */
+  background-size: cover;
+  background-position: center;
+  color: #fff; /* Content remains opaque white */
+}
