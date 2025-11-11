@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyOrganizationApp.Application.Common.Interfaces;
+using MyOrganizationApp.Application.DTOs;
 using MyOrganizationApp.Application.Services.Implementation;
 using MyOrganizationApp.Application.Services.Interface;
 using MyOrganizationApp.Infrastructure.Data;
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<MyOrgDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<DepartmentMapper>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

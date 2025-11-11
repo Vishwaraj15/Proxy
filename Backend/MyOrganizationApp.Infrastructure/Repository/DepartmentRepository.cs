@@ -16,9 +16,9 @@ namespace MyOrganizationApp.Infrastructure.Repository
             _db = db;
         }
         
-        public void Update(TblDepartment entity)
+        public async Task Update(TblDepartment entity)
         {
-            _db.TblDepartments.Update(entity);
+           _db.TblDepartments.Update(entity);
         }
     }
 }

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyOrganizationApp.Infrastructure.Data;
-using MyOrganizationApp.Domain.Entities;
 using MyOrganizationApp.Application.Services.Interface;
+using MyOrganizationApp.Application.DTOs;
 
 namespace MyOrganizationApp.API.Controllers
 {
@@ -16,51 +10,52 @@ namespace MyOrganizationApp.API.Controllers
     public class DepartmentsController : ControllerBase
     {
         private readonly IDepartmentService _departmentService;
-
-        public DepartmentsController(IDepartmentService departmentService)
+        private readonly DepartmentMapper _departmentMapper;
+        public DepartmentsController(IDepartmentService departmentService, DepartmentMapper departmentMapper)
         {
             _departmentService = departmentService;
+            _departmentMapper = departmentMapper;
         }
 
         // GET: api/Departments
         [HttpGet]
-        public ActionResult<IEnumerable<TblDepartment>> GetTblDepartments()
+        public async Task<ActionResult<IEnumerable<DepartmentDto>>> GetDepartments()
         {
-            var departments = _departmentService.GetAllDepartments();
+            var departments = await _departmentService.GetAllDepartments();
             return Ok(departments);
         }
 
         // GET: api/Departments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TblDepartment>> GetTblDepartment(int id)
+        public async Task<ActionResult<DepartmentDto>> GetDepartment(int id)
         {
-            var tblDepartment = _departmentService.GetDepartmentById(id);
+            var departmentDto = await _departmentService.GetDepartmentById(id);
 
-            if (tblDepartment == null)
+            if (departmentDto == null)
             {
                 return NotFound();
             }
 
-            return tblDepartment;
+            return departmentDto;
         }
 
         // PUT: api/Departments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTblDepartment(int id, TblDepartment tblDepartment)
+        public async Task<IActionResult> PutDepartment(int id, DepartmentDto departmentDto)
         {
-            if (id != tblDepartment.PkdeptId)
+            if (id != departmentDto.ID)
             {
                 return BadRequest();
             }
 
             try
             {
-                _departmentService.UpdateDepartment(tblDepartment);
+                await _departmentService.UpdateDepartment(departmentDto);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TblDepartmentExists(id))
+                if (!await DepartmentExists(id))
                 {
                     return NotFound();
                 }
@@ -76,30 +71,30 @@ namespace MyOrganizationApp.API.Controllers
         // POST: api/Departments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TblDepartment>> PostTblDepartment(TblDepartment tblDepartment)
+        public async Task<ActionResult<DepartmentDto>> PostDepartment(DepartmentDto department)
         {
-            _departmentService.CreateDepartment(tblDepartment);
+            await _departmentService.CreateDepartment(department);
 
-            return CreatedAtAction("GetTblDepartment", new { id = tblDepartment.PkdeptId }, tblDepartment);
+            return CreatedAtAction("GetTblDepartment", new { id = department.ID }, department);
         }
 
         // DELETE: api/Departments/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTblDepartment(int id)
+        public async Task<IActionResult> DeleteDepartment(int id)
         {
-            var tblDepartment = _departmentService.GetDepartmentById(id);
-            if (tblDepartment == null)
+            var department = await _departmentService.GetDepartmentById(id);
+            if (department == null)
             {
                 return NotFound();
             }
 
-            _departmentService.DeleteDepartment(tblDepartment.PkdeptId);
+            await _departmentService.DeleteDepartment(department.ID);
             return NoContent();
         }
 
-        private bool TblDepartmentExists(int id)
+        private async Task<bool> DepartmentExists(int id)
         {
-            return _departmentService.Any(d=> d.PkdeptId == id);
+            return await _departmentService.Any(d => d.PkdeptId == id);
         }
     }
 }

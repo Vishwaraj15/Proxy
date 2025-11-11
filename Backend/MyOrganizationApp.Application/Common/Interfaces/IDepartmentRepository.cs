@@ -4,7 +4,7 @@ namespace MyOrganizationApp.Application.Common.Interfaces
 {
     public interface IDepartmentRepository : IRepository<TblDepartment>
     {
-        void Update(TblDepartment entity);
+        Task Update(TblDepartment entity);
 
     }
 }

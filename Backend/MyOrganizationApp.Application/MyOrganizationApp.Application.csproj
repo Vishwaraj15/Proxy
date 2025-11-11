@@ -15,4 +15,8 @@
     <Folder Include="Contract\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Riok.Mapperly" Version="4.3.0" />
+  </ItemGroup>
+
 </Project>

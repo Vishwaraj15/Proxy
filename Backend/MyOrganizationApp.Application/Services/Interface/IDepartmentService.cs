@@ -1,4 +1,5 @@
-﻿using MyOrganizationApp.Domain.Entities;
+﻿using MyOrganizationApp.Application.DTOs;
+using MyOrganizationApp.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace MyOrganizationApp.Application.Services.Interface
 {
     public interface IDepartmentService
     {
-        IEnumerable<TblDepartment> GetAllDepartments();
-        TblDepartment GetDepartmentById(int id);
-        void CreateDepartment(TblDepartment villa);
-        void UpdateDepartment(TblDepartment villa);
-        bool DeleteDepartment(int id);
-        bool Any(Expression<Func<TblDepartment, bool>> filter);
+        Task<IEnumerable<DepartmentDto>> GetAllDepartments();
+        Task<DepartmentDto> GetDepartmentById(int id);
+        Task CreateDepartment(DepartmentDto department);
+        Task UpdateDepartment(DepartmentDto department);
+        Task<bool> DeleteDepartment(int id);
+        Task<bool> Any(Expression<Func<TblDepartment, bool>> filter);
     }
 }

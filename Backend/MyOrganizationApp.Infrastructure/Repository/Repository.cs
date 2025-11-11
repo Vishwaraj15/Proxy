@@ -20,17 +20,17 @@ namespace MyOrganizationApp.Infrastructure.Repository
             _db = db;
             dbSet = _db.Set<T>();
         }
-        public void Add(T entity)
+        public async Task Add(T entity)
         {
-            dbSet.Add(entity);
+            await dbSet.AddAsync(entity);
         }
 
-        public bool Any(Expression<Func<T, bool>> filter)
+        public async Task<bool> Any(Expression<Func<T, bool>> filter)
         {
-            return dbSet.Any(filter);
+            return await dbSet.AllAsync(filter);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
+        public async Task<T> Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
             IQueryable<T> query;
             if (tracked)
@@ -39,7 +39,7 @@ namespace MyOrganizationApp.Infrastructure.Repository
             }
             else
             {
-                query=dbSet.AsNoTracking();
+                query = dbSet.AsNoTracking();
             }
             if (filter != null)
             {
@@ -54,10 +54,10 @@ namespace MyOrganizationApp.Infrastructure.Repository
                     query = query.Include(includeProp.Trim());
                 }
             }
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, bool tracked = false)
+        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, bool tracked = false)
         {
             IQueryable<T> query;
             if (tracked)
@@ -80,10 +80,10 @@ namespace MyOrganizationApp.Infrastructure.Repository
                     query = query.Include(includeProp.Trim());
                 }
             }
-            return query.ToList();
+            return await query.ToListAsync();
         }
 
-        public void Remove(T entity)
+        public async Task Remove(T entity)
         {
             dbSet.Remove(entity);
         }
