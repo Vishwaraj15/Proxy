@@ -1,6 +1,8 @@
 ﻿using MyOrganizationApp.Application.Common.Interfaces;
 using MyOrganizationApp.Application.Services.Interface;
 using MyOrganizationApp.Domain.Entities;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace MyOrganizationApp.Application.Services.Implementation
 {
@@ -48,6 +50,11 @@ namespace MyOrganizationApp.Application.Services.Implementation
         {
             _unitOfWork.DepartmentRepo.Update(tblDepartment);
             _unitOfWork.Save();
+        }
+
+        public bool Any(Expression<Func<TblDepartment, bool>> filter)
+        {
+            return _unitOfWork.DepartmentRepo.Any(filter);
         }
     }
 }

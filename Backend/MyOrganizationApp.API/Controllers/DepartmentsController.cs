@@ -60,7 +60,7 @@ namespace MyOrganizationApp.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (TblDepartmentExists(id) == null)
+                if (!TblDepartmentExists(id))
                 {
                     return NotFound();
                 }
@@ -97,9 +97,9 @@ namespace MyOrganizationApp.API.Controllers
             return NoContent();
         }
 
-        private TblDepartment TblDepartmentExists(int id)
+        private bool TblDepartmentExists(int id)
         {
-            return _departmentService.GetDepartmentById(id);
+            return _departmentService.Any(d=> d.PkdeptId == id);
         }
     }
 }

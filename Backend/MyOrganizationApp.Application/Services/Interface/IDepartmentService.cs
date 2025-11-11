@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MyOrganizationApp.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using MyOrganizationApp.Domain.Entities;
 
 namespace MyOrganizationApp.Application.Services.Interface
 {
@@ -14,5 +15,6 @@ namespace MyOrganizationApp.Application.Services.Interface
         void CreateDepartment(TblDepartment villa);
         void UpdateDepartment(TblDepartment villa);
         bool DeleteDepartment(int id);
+        bool Any(Expression<Func<TblDepartment, bool>> filter);
     }
 }
