@@ -20,6 +20,8 @@ public partial class MyOrgDbContext : DbContext
 
     public virtual DbSet<TblEmployee> TblEmployees { get; set; }
 
+    public virtual DbSet<VwEmployeeDepartmentDetail> VwEmployeeDepartmentDetails { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TblDepartment>(entity =>
@@ -58,6 +60,20 @@ public partial class MyOrgDbContext : DbContext
                 .HasForeignKey(d => d.FkdeptId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tbl_Department_Tbl_Employee");
+        });
+
+        modelBuilder.Entity<VwEmployeeDepartmentDetail>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_EmployeeDepartmentDetails");
+
+            entity.Property(e => e.DepartmentName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.EmployeeName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);
